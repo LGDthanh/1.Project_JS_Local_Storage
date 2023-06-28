@@ -40,6 +40,7 @@ function register() {
   users.push(user);
   localStorage.setItem('users', JSON.stringify(users));
   alert('Registration successful!');
+  goToLogin();
 }
 
 
