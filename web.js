@@ -30,8 +30,32 @@ function validateInput(){
                         address: address
                     })
                     localStorage.setItem("list-student", JSON.stringify(listStudent))
+                    getList();
                 }
             }
+        // API Get
+        function getList(){
+            var listStudent =  localStorage.getItem("list-student") ? JSON.parse(localStorage.getItem('list-student')) : []
+            var tableStudent = `
+            <tr>
+            <td>ID</td>
+            <td>name</td>
+            <td>Address</td>
+            <td>Chức Năng</td>
+        </tr>`
+        listStudent.map((value,index) =>{
+            tableStudent += `<tr>
+            <td>${index +1}</td>
+            <td>${value.name}</td>
+            <td>${value.address}</td>
+            <td>
+            <button>Edit</button>
+            <button>Delete</button>
+            </td>
+        </tr>`
+        })
+        document.getElementById("tableContent").innerHTML = tableStudent
+        }
 
         // API Sửa
         function updateItem(){
