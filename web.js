@@ -10,6 +10,12 @@ function validateInput(){
             }
             }
         }
+// Xoa chu trong input
+        function resetInput(){
+            document.getElementById("name"). value = "";
+            document.getElementById("address"). value = ""
+
+        }
             // API Thêm
             function addNew(){
                 validateInput()
@@ -31,6 +37,7 @@ function validateInput(){
                     })
                     localStorage.setItem("list-student", JSON.stringify(listStudent))
                     getList();
+                    resetInput()
                 }
             }
         // API Get
@@ -49,8 +56,8 @@ function validateInput(){
             <td>${value.name}</td>
             <td>${value.address}</td>
             <td>
-            <button>Edit</button>
-            <button>Delete</button>
+            <button onclick="updateItem(${index})">Edit</button>
+            <button onclick="deleteItem(${index})" >Delete</button>
             </td>
         </tr>`
         })
@@ -58,11 +65,42 @@ function validateInput(){
         }
 
         // API Sửa
-        function updateItem(){
-            alert("Đã cập nhật");
+        function updateItem(index){
+            var listStudent =  localStorage.getItem("list-student") ? JSON.parse(localStorage.getItem('list-student')) : []
+            document.getElementById("name").value = listStudent[index].name
+            document.getElementById("address").value = listStudent[index].address
+            document.getElementById("index").value = index // Hứng index
+
+            document.getElementById("saveItem").style.display = "none"
+            document.getElementById("updateInput").style.display = "inline-block"
+
+        }
+        function changeItem(){
+            var listStudent =  localStorage.getItem("list-student") ? JSON.parse(localStorage.getItem('list-student')) : []
+            var index = document.getElementById("index").value
+            listStudent[index] ={
+                name: document.getElementById('name').value,
+                address : document.getElementById('address').value
+            }
+            localStorage.setItem("list-student", JSON.stringify(listStudent))
+
+            document.getElementById("saveItem").style.display = "inline-block"
+            document.getElementById("updateInput").style.display = "none"
+
+            getList();
+            resetInput()
+            alert("Cập nhật thành công!");
+
         }
         // API Xóa
-        function deleteItem(){
+        function deleteItem(index){
+            var listStudent =  localStorage.getItem("list-student") ? JSON.parse(localStorage.getItem('list-student')) : []
+            if (confirm("Are you sure?")){
+            listStudent.splice(index, 1)
+
+            }
+            localStorage.setItem("list-student",JSON.stringify(listStudent));
+            getList();
             alert("Đã xoá thành công!");
         }
    

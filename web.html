@@ -51,6 +51,10 @@
             border: 1px solid black;
             padding: 10px;
         }
+
+        #updateInput {
+            display: none;
+        }
     </style>
 </head>
 
@@ -66,8 +70,13 @@
             <input id="address" type="text" class="form-input">
             <div class="err-message"></div>
         </div>
-        <button onclick="addNew()">Submit Form</button>
-        <div id="tableContainer">
+        <div class="form-group">
+            <input id="index" type="hidden">
+        </div>
+        <button id="saveItem" onclick="addNew()">Submit Form</button>
+        <button id="updateInput" onclick="changeItem()">Update</button>
+
+        <div id=" tableContainer">
             <table id="tableContent">
                 <tr>
                     <td>ID</td>
