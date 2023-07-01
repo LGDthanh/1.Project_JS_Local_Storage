@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Register</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body >
+
+<body onload="checkLogin()">
   <div class="register-container">
     <h2>Registration Page</h2>
     <form id="registerForm">
@@ -17,11 +19,12 @@
       <label for="confirmPassword">Confirm Password:</label>
       <input type="password" id="confirmPassword" name="confirmPassword">
       <br>
-      <input type="submit" value="Register" >
+      <input type="submit" value="Register">
       <input type="button" value="Login" onclick="goToLogin()">
     </form>
   </div>
   <script src="script.js"></script>
 
 </body>
+
 </html>
