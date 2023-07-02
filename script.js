@@ -42,15 +42,18 @@ function register() {
 }
 
 // Token
-var isLogin = false;
-isLogin = !!localStorage.getItem("token");
+var isLogin = localStorage.getItem("token");
 
 function checkLogin() {
+  if (!isLogin) {
+    window.location.href = "login.html";
+  }
+}
+function checkLogin1() {
   if (isLogin) {
     window.location.href = "index.html";
   }
 }
-
 // Login
 function login() {
   var username = document.getElementById("username").value;
@@ -167,9 +170,16 @@ function addNew() {
     var address = document.getElementById("address").value;
 
     var listStudent = JSON.parse(localStorage.getItem("list-student")) || [];
+    var loggedInUser = getLoggedInUser();
+    var currentTime = new Date().toLocaleTimeString();
+
     listStudent.push({
       name: name,
       address: address,
+      addedBy: loggedInUser ? loggedInUser.username : "Unknown",
+      addedAt: currentTime,
+      lastEditedBy: loggedInUser ? loggedInUser.username : "Unknown",
+      lastEditedAt: currentTime,
     });
     localStorage.setItem("list-student", JSON.stringify(listStudent));
     getList();
@@ -199,10 +209,10 @@ function getList() {
             <td>${index + 1}</td>
             <td>${value.name}</td>
             <td>${value.address}</td>
-            <td>Người thêm</td>
-            <td>Thời gian thêm</td>
-            <td>Người chỉnh sửa gần nhất</td>
-            <td>Thời gian sửa gần nhất</td>
+            <td>${value.addedBy}</td>
+            <td>${value.addedAt}</td>
+            <td>${value.lastEditedBy}</td>
+            <td>${value.lastEditedAt}</td>
             <td>Trạng thái</td>
             <td>Xem chi tiết</td>
             <td>
@@ -234,6 +244,10 @@ function changeItem() {
   listStudent[index] = {
     name: document.getElementById("name").value,
     address: document.getElementById("address").value,
+    addedBy: listStudent[index].addedBy, // Giữ người thêm không thay đổi
+    addedAt: listStudent[index].addedAt,
+    lastEditedBy: getLoggedInUser().username, // Lấy thông tin người chỉnh sửa mới
+    lastEditedAt: new Date().toLocaleString(),
   };
   localStorage.setItem("list-student", JSON.stringify(listStudent));
 
@@ -255,4 +269,13 @@ function deleteItem(index) {
   localStorage.setItem("list-student", JSON.stringify(listStudent));
   getList();
   alert("Đã xoá thành công!");
+}
+
+function getLoggedInUser() {
+  var username = localStorage.getItem("token");
+  var users = JSON.parse(localStorage.getItem("users")) || [];
+  var loggedInUser = users.find(function (user) {
+    return user.username === username;
+  });
+  return loggedInUser;
 }
