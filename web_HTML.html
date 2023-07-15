@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <title>Câu hỏi HTML</title>
+</head>
+<style>
+    .form {
+        background-color: #f2f2f2;
+        padding: 20px;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+        /* Điều chỉnh khoảng cách giữa hai cột */
+        align-items: center;
+    }
+
+
+
+    .form-input {
+        width: 150px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .err-message {
+        color: red;
+    }
+
+    #tableContainer {
+        text-align: center;
+        margin-top: 20px;
+
+    }
+
+    #tableContent {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #tableContent td {
+        border: 1px solid black;
+        padding: 10px;
+    }
+
+    #updateInput {
+        display: none;
+    }
+</style>
+
+<body onload="checkLogin()">
+    <button onclick="goToIndex()">Trang chủ</button>
+    <div>
+        <div id="question">
+            <select name="Question">
+                <option value="menu">Lựa chọn dạng câu hỏi</option>
+                <option value="question-1">Dạng câu hỏi 1 đáp án</option>
+                <option value="question-2">Dạng câu hỏi điền</option>
+                <option value="question-3">Dạng câu hỏi nhiều đáp án</option>
+                <option value="datalist">Danh sách các câu hỏi đã thêm</option>
+            </select>
+            <h2 style="color: bisque;"> Danh sách câu hỏi đã thêm</h2>
+        </div>
+
+        <div class="form">
+            <div class="form-group">
+                <label for="name">Câu hỏi</label>
+                <input id="name" type="text" class="form-input">
+                <div class="err-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="address">Nhập câu hỏi</label>
+                <input id="address" type="text" class="form-input">
+                <div class="err-message"></div>
+            </div>
+            <div class="form-group">
+                <input id="index" type="hidden">
+            </div>
+
+            <button id="saveItem" onclick="addNew()">Submit Form</button>
+
+            <button id="updateInput" onclick="changeItem()">Update</button>
+
+            <div id="tableContainer" onload="getList()">
+                <table id="tableContent">
+                    <tr>
+                        <td>STT</td>
+                        <td>Câu hỏi</td>
+                        <td>Loại câu hỏi</td>
+                        <td>Người thêm</td>
+                        <td>Thời gian thêm</td>
+                        <td>Người chỉnh sửa gần nhất</td>
+                        <td>Thời gian sửa gần nhất</td>
+                        <td>Trạng thái</td>
+                        <td>Xem chi tiết</td>
+                        <td>Chức Năng</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- <script src="web.js"></script> -->
+        <script src="script.js"></script>
+
+</body>
+
+</html>

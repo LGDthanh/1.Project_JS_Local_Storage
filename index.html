@@ -1,23 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
   <title>Home</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <script src="script.js"></script>
-  <script src="web.js"></script>
 
 </head>
 
-<body onload="checkLogin()">
-  <h1>Welcome to the Home Page</h1>
-  <p id=" welcomeMessage">
-  </p>
-  <button onclick="logout()">Logout</button>
-  <script>displayWelcomeMessage();</script>
+<body>
+  <h1 style="color: bisque;">Welcome to the Home Page</h1>
+  <div id="userContainer">
+    <p style="color: bisque;" id="welcomeMessage"></p>
+    <script>displayWelcomeMessage();</script>
+    <button onclick="logout()">Logout</button>
+  </div>
   <button onclick="goToWeb()">Web</button>
 
+  <div class="header">
   </div>
+  <div class="main">
+    <div class="content">
+      <img src="/img/HTML.png" alt="Ảnh HTML">
+      <div class="text">
+      </div>
+      <div class="join">
+        <button onclick="goToWeb_HTML()" type=" submit">Vào học</button>
+      </div>
+    </div>
+    <div class="content">
+      <img src="/img/CSS.png" alt="Ảnh CSS">
+      <div class="text">
+      </div>
+      <div class="join">
+        <button onclick="goToWeb_CSS()" type="submit">Vào học</button>
+      </div>
+    </div>
+    <div class="content">
+      <img src="/img/JS.png" alt="Ảnh JavaScript">
+      <div class="text" style="left: 35px;">
+      </div>
+      <div class="join">
+        <button onclick="goToWeb_JS()" type="submit">Vào học</button>
+      </div>
+    </div>
   </div>
 </body>
 

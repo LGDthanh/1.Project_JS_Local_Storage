@@ -5,11 +5,11 @@ function checkExistingUser(username) {
     for (var i = 0; i < users.length; i++) {
       if (users[i].username === username) {
         alert("Tài khoản đã tồn tại!");
-        return false;
+        return true;
       }
     }
   }
-  return true;
+  return false;
 }
 
 // Register
@@ -25,7 +25,7 @@ function register() {
   }
 
   // Kiểm tra xem tài khoản đã tồn tại hay chưa
-  if (!checkExistingUser(username)) {
+  if (checkExistingUser(username)) {
     return;
   }
 
@@ -67,10 +67,9 @@ function login() {
   });
 
   if (user) {
+    alert("Đăng nhập thành công!");
     localStorage.setItem("token", username);
     isLogin = true;
-    alert("Đăng nhập thành công!");
-
     window.location.href = "index.html";
   } else {
     alert("Sai mật khẩu hoặc tài khoản!");
@@ -99,11 +98,15 @@ function displayWelcomeMessage() {
 }
 
 // Hàm xử lý đăng xuất
+
 function logout() {
   localStorage.removeItem("token");
   window.location.href = "login.html";
-}
 
+  // Sau khi đăng xuất thành công, thêm lớp "logout-visible" vào #userContainer để hiển thị nút logout
+  var userContainer = document.getElementById("userContainer");
+  userContainer.classList.add("logout-visible");
+}
 function goToRegister() {
   window.location.href = "register.html";
 }
@@ -111,8 +114,14 @@ function goToRegister() {
 function goToLogin() {
   window.location.href = "login.html";
 }
-function goToWeb() {
-  window.location.href = "web.html";
+function goToWeb_HTML() {
+  window.location.href = "web_HTML.html";
+}
+function goToWeb_CSS() {
+  window.location.href = "web_CSS.html";
+}
+function goToWeb_JS() {
+  window.location.href = "web_JS.html";
 }
 function goToIndex() {
   window.location.href = "index.html";
@@ -126,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
       register();
     });
   }
-
+  // Thay thế nút onclick bên html
   var loginForm = document.getElementById("loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", function (event) {
@@ -155,6 +164,7 @@ function resetInput() {
   document.getElementById("name").value = "";
   document.getElementById("address").value = "";
 }
+
 // API Thêm
 function addNew() {
   validateInput();
@@ -204,6 +214,7 @@ function getList() {
                     <td>Xem chi tiết</td>
                     <td>Chức Năng</td>
                 </tr>`;
+         
   listStudent.map((value, index) => {
     tableStudent += `<tr>
             <td>${index + 1}</td>
@@ -265,10 +276,10 @@ function deleteItem(index) {
     : [];
   if (confirm("Are you sure?")) {
     listStudent.splice(index, 1);
+    alert("Đã xoá thành công!");
   }
   localStorage.setItem("list-student", JSON.stringify(listStudent));
   getList();
-  alert("Đã xoá thành công!");
 }
 
 function getLoggedInUser() {
