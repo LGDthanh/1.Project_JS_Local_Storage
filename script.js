@@ -143,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
       login();
     });
   }
+  getList();
 });
 // Kiểm tra nội dung đã được điền chưa
 function validateInput() {
@@ -202,35 +203,34 @@ function getList() {
     ? JSON.parse(localStorage.getItem("list-student"))
     : [];
   var tableStudent = `
-            <tr>
-                    <td>STT</td>
-                    <td>Câu hỏi</td>
-                    <td>Loại câu hỏi</td>
-                    <td>Người thêm</td>
-                    <td>Thời gian thêm</td>
-                    <td>Người chỉnh sửa gần nhất</td>
-                    <td>Thời gian sửa gần nhất</td>
-                    <td>Trạng thái</td>
-                    <td>Xem chi tiết</td>
-                    <td>Chức Năng</td>
-                </tr>`;
-         
+              <tr id="tableHeader">
+                      <td>STT</td>
+                      <td>Câu hỏi</td>
+                      <td>Loại câu hỏi</td>
+                      <td>Người thêm</td>
+                      <td>Thời gian thêm</td>
+                      <td>Người chỉnh sửa gần nhất</td>
+                      <td>Thời gian sửa gần nhất</td>
+                      <td>Trạng thái</td>
+                      <td>Xem chi tiết</td>
+                      <td>Chức Năng</td>
+                  </tr>`;
   listStudent.map((value, index) => {
     tableStudent += `<tr>
-            <td>${index + 1}</td>
-            <td>${value.name}</td>
-            <td>${value.address}</td>
-            <td>${value.addedBy}</td>
-            <td>${value.addedAt}</td>
-            <td>${value.lastEditedBy}</td>
-            <td>${value.lastEditedAt}</td>
-            <td>Trạng thái</td>
-            <td>Xem chi tiết</td>
-            <td>
-            <button onclick="updateItem(${index})">Edit</button>
-            <button onclick="deleteItem(${index})" >Delete</button>
-            </td>
-        </tr>`;
+              <td>${index + 1}</td>
+              <td>${value.name}</td>
+              <td>${value.address}</td>
+              <td>${value.addedBy}</td>
+              <td>${value.addedAt}</td>
+              <td>${value.lastEditedBy}</td>
+              <td>${value.lastEditedAt}</td>
+              <td>Trạng thái</td>
+              <td>Xem chi tiết</td>
+              <td>
+              <button onclick="updateItem(${index})">Edit</button>
+              <button onclick="deleteItem(${index})" >Delete</button>
+              </td>
+          </tr>`;
   });
   document.getElementById("tableContent").innerHTML = tableStudent;
 }
