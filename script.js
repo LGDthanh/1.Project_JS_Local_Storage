@@ -76,32 +76,64 @@ function login() {
   }
 }
 
-function displayWelcomeMessage0() {
-  var token = localStorage.getItem("token");
+function changePassword() {
+  var oldPassword = document.getElementById("oldPassword").value;
+  var newPassword = document.getElementById("newPassword").value;
+  var confirmNewPassword = document.getElementById("confirmNewPassword").value;
+  var username = localStorage.getItem("token");
 
-  if (token) {
-    var users = JSON.parse(localStorage.getItem("users"));
+  var users = JSON.parse(localStorage.getItem("users"));
 
-    var user = users.find(function (u) {
-      return u.username === token;
-    });
+  var user = users.find(function (u) {
+    return u.username === username && u.password === oldPassword;
+  });
 
-    if (user) {
-      document.getElementById("welcomeMessage").textContent =
-        "Welcome, " + user.username + "!";
-    } else {
-      document.getElementById("welcomeMessage").textContent = "Welcome!";
+  if (user) {
+    if (newPassword !== confirmNewPassword) {
+      alert("New Password and Confirm New Password must match!");
+      return;
     }
+
+    user.password = newPassword;
+
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Password changed successfully!");
+    goToIndex();
   } else {
-    window.location.href = "login.html";
+    alert("Incorrect old password!");
   }
 }
+
+// function displayWelcomeMessage0() {
+//   var token = localStorage.getItem("token");
+
+//   if (token) {
+//     var users = JSON.parse(localStorage.getItem("users"));
+
+//     var user = users.find(function (u) {
+//       return u.username === token;
+//     });
+
+//     if (user) {
+//       document.getElementById("welcomeMessage").textContent =
+//         "Welcome, " + user.username + "!";
+//     } else {
+//       document.getElementById("welcomeMessage").textContent = "Welcome!";
+//     }
+//   } else {
+//     window.location.href = "login.html";
+//   }
+// }
+
+// Hiển thị tên đăng nhập
 function displayWelcomeMessage() {
   var token = localStorage.getItem("token");
 
   if (token) {
     var users = JSON.parse(localStorage.getItem("users"));
 
+    // Tìm thông tin user dựa trên token (user đã đăng nhập)
     var user = users.find(function (u) {
       return u.username === token;
     });
@@ -109,40 +141,47 @@ function displayWelcomeMessage() {
     if (user) {
       var dropdownDiv = document.getElementById("welcomeMessage");
 
-      // Create the username button
+      // Tạo nút hiển thị user
       var usernameBtn = document.createElement("button");
       usernameBtn.className = "username-btn";
       usernameBtn.textContent = user.username;
 
-      // Create the dropdown content
+      // Tạo menu khi nhấn vào tên user
       var dropdownContent = document.createElement("div");
       dropdownContent.className = "dropdown-content";
 
-      // Create the logout link inside the dropdown content
+      // Tạo "Đổi mật khẩu" trong menu
+      var changePasswordLink = document.createElement("a");
+      changePasswordLink.href = "change_password.html";
+      changePasswordLink.textContent = "Đổi mật khẩu";
+      changePasswordLink.className = "change-password-link";
+      dropdownContent.appendChild(changePasswordLink);
+
+      // Tạo "Đăng xuất" trong menu
       var logoutLink = document.createElement("a");
       logoutLink.href = "#";
       logoutLink.textContent = "Đăng xuất";
       logoutLink.className = "logout-link";
       dropdownContent.appendChild(logoutLink);
 
-      // Append the username button and dropdown content to the dropdown div
+      // Thêm nút tên người dùng và menu
       dropdownDiv.appendChild(usernameBtn);
       dropdownDiv.appendChild(dropdownContent);
 
-      // Show dropdown content when hovering over the username button
+      // Hiển thị menu khi di chuột qua nút tên user
       usernameBtn.addEventListener("mouseover", function () {
         dropdownContent.style.display = "block";
       });
 
-      // Hide dropdown content when moving away from the username button
+      // Ẩn menu khi di chuột ra khỏi nút tên user
       dropdownDiv.addEventListener("mouseleave", function () {
         dropdownContent.style.display = "none";
       });
 
-      // Add event listener to handle logout when clicking on logout link
+      // Thêm sự kiện để xử lý đăng xuất
       logoutLink.addEventListener("click", function () {
         localStorage.removeItem("token");
-        window.location.href = "login.html"; // Redirect to login page after logout
+        window.location.href = "login.html"; // Chuyển hướng đến trang đăng nhập sau khi đăng xuất
       });
     }
   } else {
@@ -661,6 +700,7 @@ function getQuestionType(question) {
     return "Không xác định";
   }
 }
+
 function showQuestionDetail(index) {
   var listQuestions = localStorage.getItem("questions")
     ? JSON.parse(localStorage.getItem("questions"))
