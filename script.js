@@ -76,7 +76,7 @@ function login() {
   }
 }
 
-function displayWelcomeMessage() {
+function displayWelcomeMessage0() {
   var token = localStorage.getItem("token");
 
   if (token) {
@@ -91,6 +91,59 @@ function displayWelcomeMessage() {
         "Welcome, " + user.username + "!";
     } else {
       document.getElementById("welcomeMessage").textContent = "Welcome!";
+    }
+  } else {
+    window.location.href = "login.html";
+  }
+}
+function displayWelcomeMessage() {
+  var token = localStorage.getItem("token");
+
+  if (token) {
+    var users = JSON.parse(localStorage.getItem("users"));
+
+    var user = users.find(function (u) {
+      return u.username === token;
+    });
+
+    if (user) {
+      var dropdownDiv = document.getElementById("welcomeMessage");
+
+      // Create the username button
+      var usernameBtn = document.createElement("button");
+      usernameBtn.className = "username-btn";
+      usernameBtn.textContent = user.username;
+
+      // Create the dropdown content
+      var dropdownContent = document.createElement("div");
+      dropdownContent.className = "dropdown-content";
+
+      // Create the logout link inside the dropdown content
+      var logoutLink = document.createElement("a");
+      logoutLink.href = "#";
+      logoutLink.textContent = "Đăng xuất";
+      logoutLink.className = "logout-link";
+      dropdownContent.appendChild(logoutLink);
+
+      // Append the username button and dropdown content to the dropdown div
+      dropdownDiv.appendChild(usernameBtn);
+      dropdownDiv.appendChild(dropdownContent);
+
+      // Show dropdown content when hovering over the username button
+      usernameBtn.addEventListener("mouseover", function () {
+        dropdownContent.style.display = "block";
+      });
+
+      // Hide dropdown content when moving away from the username button
+      dropdownDiv.addEventListener("mouseleave", function () {
+        dropdownContent.style.display = "none";
+      });
+
+      // Add event listener to handle logout when clicking on logout link
+      logoutLink.addEventListener("click", function () {
+        localStorage.removeItem("token");
+        window.location.href = "login.html"; // Redirect to login page after logout
+      });
     }
   } else {
     window.location.href = "login.html";
@@ -166,121 +219,121 @@ function resetInput() {
   document.getElementById("address").value = "";
 }
 
-// API Thêm
-function addNew() {
-  validateInput();
-  var formElement = document.querySelector(".form");
-  var errElement = formElement.querySelectorAll(".err-message");
-  var arrErrorElement = [];
-  for (let i = 0; i < errElement.length; i++) {
-    arrErrorElement.push(errElement[i].innerText);
-  }
-  var checkErrorElement = arrErrorElement.every((value) => value === "");
-  if (checkErrorElement) {
-    var name = document.getElementById("name").value;
-    var address = document.getElementById("address").value;
+// // API Thêm
+// function addNew() {
+//   validateInput();
+//   var formElement = document.querySelector(".form");
+//   var errElement = formElement.querySelectorAll(".err-message");
+//   var arrErrorElement = [];
+//   for (let i = 0; i < errElement.length; i++) {
+//     arrErrorElement.push(errElement[i].innerText);
+//   }
+//   var checkErrorElement = arrErrorElement.every((value) => value === "");
+//   if (checkErrorElement) {
+//     var name = document.getElementById("name").value;
+//     var address = document.getElementById("address").value;
 
-    var listStudent = JSON.parse(localStorage.getItem("list-student")) || [];
-    var loggedInUser = getLoggedInUser();
-    var currentTime = new Date().toLocaleTimeString();
+//     var listStudent = JSON.parse(localStorage.getItem("list-student")) || [];
+//     var loggedInUser = getLoggedInUser();
+//     var currentTime = new Date().toLocaleTimeString();
 
-    listStudent.push({
-      name: name,
-      address: address,
-      addedBy: loggedInUser ? loggedInUser.username : "Unknown",
-      addedAt: currentTime,
-      lastEditedBy: loggedInUser ? loggedInUser.username : "Unknown",
-      lastEditedAt: currentTime,
-    });
-    localStorage.setItem("list-student", JSON.stringify(listStudent));
-    getList();
-    resetInput();
-  }
-}
+//     listStudent.push({
+//       name: name,
+//       address: address,
+//       addedBy: loggedInUser ? loggedInUser.username : "Unknown",
+//       addedAt: currentTime,
+//       lastEditedBy: loggedInUser ? loggedInUser.username : "Unknown",
+//       lastEditedAt: currentTime,
+//     });
+//     localStorage.setItem("list-student", JSON.stringify(listStudent));
+//     getList();
+//     resetInput();
+//   }
+// }
 // API Get
-function getList() {
-  var listStudent = localStorage.getItem("list-student")
-    ? JSON.parse(localStorage.getItem("list-student"))
-    : [];
-  var tableStudent = `
-              <tr id="tableHeader">
-                      <td>STT</td>
-                      <td>Câu hỏi</td>
-                      <td>Loại câu hỏi</td>
-                      <td>Người thêm</td>
-                      <td>Thời gian thêm</td>
-                      <td>Người chỉnh sửa gần nhất</td>
-                      <td>Thời gian sửa gần nhất</td>
-                      <td>Trạng thái</td>
-                      <td>Xem chi tiết</td>
-                      <td>Chức Năng</td>
-                  </tr>`;
-  listStudent.map((value, index) => {
-    tableStudent += `<tr>
-              <td>${index + 1}</td>
-              <td>${value.name}</td>
-              <td>${value.address}</td>
-              <td>${value.addedBy}</td>
-              <td>${value.addedAt}</td>
-              <td>${value.lastEditedBy}</td>
-              <td>${value.lastEditedAt}</td>
-              <td>Trạng thái</td>
-              <td>Xem chi tiết</td>
-              <td>
-              <button onclick="updateItem(${index})">Edit</button>
-              <button onclick="deleteItem(${index})" >Delete</button>
-              </td>
-          </tr>`;
-  });
-  document.getElementById("tableContent").innerHTML = tableStudent;
-}
+// function getList() {
+//   var listStudent = localStorage.getItem("list-student")
+//     ? JSON.parse(localStorage.getItem("list-student"))
+//     : [];
+//   var tableStudent = `
+//               <tr id="tableHeader">
+//                       <td>STT</td>
+//                       <td>Câu hỏi</td>
+//                       <td>Loại câu hỏi</td>
+//                       <td>Người thêm</td>
+//                       <td>Thời gian thêm</td>
+//                       <td>Người chỉnh sửa gần nhất</td>
+//                       <td>Thời gian sửa gần nhất</td>
+//                       <td>Trạng thái</td>
+//                       <td>Xem chi tiết</td>
+//                       <td>Chức Năng</td>
+//                   </tr>`;
+//   listStudent.map((value, index) => {
+//     tableStudent += `<tr>
+//               <td>${index + 1}</td>
+//               <td>${value.name}</td>
+//               <td>${value.address}</td>
+//               <td>${value.addedBy}</td>
+//               <td>${value.addedAt}</td>
+//               <td>${value.lastEditedBy}</td>
+//               <td>${value.lastEditedAt}</td>
+//               <td>Trạng thái</td>
+//               <td>Xem chi tiết</td>
+//               <td>
+//               <button onclick="updateItem(${index})">Edit</button>
+//               <button onclick="deleteItem(${index})" >Delete</button>
+//               </td>
+//           </tr>`;
+//   });
+//   document.getElementById("tableContent").innerHTML = tableStudent;
+// }
 
-// API Sửa
-function updateItem(index) {
-  var listStudent = localStorage.getItem("list-student")
-    ? JSON.parse(localStorage.getItem("list-student"))
-    : [];
-  document.getElementById("name").value = listStudent[index].name;
-  document.getElementById("address").value = listStudent[index].address;
-  document.getElementById("index").value = index; // Hứng index
+// // API Sửa
+// function updateItem(index) {
+//   var listStudent = localStorage.getItem("list-student")
+//     ? JSON.parse(localStorage.getItem("list-student"))
+//     : [];
+//   document.getElementById("name").value = listStudent[index].name;
+//   document.getElementById("address").value = listStudent[index].address;
+//   document.getElementById("index").value = index; // Hứng index
 
-  document.getElementById("saveItem").style.display = "none";
-  document.getElementById("updateInput").style.display = "inline-block";
-}
-function changeItem() {
-  var listStudent = localStorage.getItem("list-student")
-    ? JSON.parse(localStorage.getItem("list-student"))
-    : [];
-  var index = document.getElementById("index").value;
-  listStudent[index] = {
-    name: document.getElementById("name").value,
-    address: document.getElementById("address").value,
-    addedBy: listStudent[index].addedBy, // Giữ người thêm không thay đổi
-    addedAt: listStudent[index].addedAt,
-    lastEditedBy: getLoggedInUser().username, // Lấy thông tin người chỉnh sửa mới
-    lastEditedAt: new Date().toLocaleString(),
-  };
-  localStorage.setItem("list-student", JSON.stringify(listStudent));
+//   document.getElementById("saveItem").style.display = "none";
+//   document.getElementById("updateInput").style.display = "inline-block";
+// }
+// function changeItem() {
+//   var listStudent = localStorage.getItem("list-student")
+//     ? JSON.parse(localStorage.getItem("list-student"))
+//     : [];
+//   var index = document.getElementById("index").value;
+//   listStudent[index] = {
+//     name: document.getElementById("name").value,
+//     address: document.getElementById("address").value,
+//     addedBy: listStudent[index].addedBy, // Giữ người thêm không thay đổi
+//     addedAt: listStudent[index].addedAt,
+//     lastEditedBy: getLoggedInUser().username, // Lấy thông tin người chỉnh sửa mới
+//     lastEditedAt: new Date().toLocaleString(),
+//   };
+//   localStorage.setItem("list-student", JSON.stringify(listStudent));
 
-  document.getElementById("saveItem").style.display = "inline-block";
-  document.getElementById("updateInput").style.display = "none";
+//   document.getElementById("saveItem").style.display = "inline-block";
+//   document.getElementById("updateInput").style.display = "none";
 
-  getList();
-  resetInput();
-  alert("Cập nhật thành công!");
-}
-// API Xóa
-function deleteItem(index) {
-  var listStudent = localStorage.getItem("list-student")
-    ? JSON.parse(localStorage.getItem("list-student"))
-    : [];
-  if (confirm("Are you sure?")) {
-    listStudent.splice(index, 1);
-    alert("Đã xoá thành công!");
-  }
-  localStorage.setItem("list-student", JSON.stringify(listStudent));
-  getList();
-}
+//   getList();
+//   resetInput();
+//   alert("Cập nhật thành công!");
+// }
+// // API Xóa
+// function deleteItem(index) {
+//   var listStudent = localStorage.getItem("list-student")
+//     ? JSON.parse(localStorage.getItem("list-student"))
+//     : [];
+//   if (confirm("Are you sure?")) {
+//     listStudent.splice(index, 1);
+//     alert("Đã xoá thành công!");
+//   }
+//   localStorage.setItem("list-student", JSON.stringify(listStudent));
+//   getList();
+// }
 
 function getLoggedInUser() {
   var username = localStorage.getItem("token");
@@ -290,6 +343,8 @@ function getLoggedInUser() {
   });
   return loggedInUser;
 }
+
+//
 function handleQuestionSelection(event) {
   var selectedOption = event.target.value;
   var inputContainer = document.getElementById("inputContainer");
@@ -410,8 +465,8 @@ function saveQuestion() {
     userAnswers: userAnswers,
     addedBy: loggedInUser ? loggedInUser.username : "Unknown",
     addedAt: currentTime,
-    lastEditedBy: loggedInUser ? loggedInUser.username : "Unknown",
-    lastEditedAt: currentTime,
+    lastEditedBy: "",
+    lastEditedAt: "",
   };
 
   questions.push(newQuestion);
@@ -450,8 +505,8 @@ function saveQuestion2() {
     correctAnswer: answer,
     addedBy: loggedInUser ? loggedInUser.username : "Unknown",
     addedAt: currentTime,
-    lastEditedBy: loggedInUser ? loggedInUser.username : "Unknown",
-    lastEditedAt: currentTime,
+    lastEditedBy: "",
+    lastEditedAt: "",
   };
   var questions = localStorage.getItem("questions")
     ? JSON.parse(localStorage.getItem("questions"))
@@ -510,8 +565,8 @@ function saveQuestion3() {
     userAnswers: userAnswers,
     addedBy: loggedInUser ? loggedInUser.username : "Unknown",
     addedAt: currentTime,
-    lastEditedBy: loggedInUser ? loggedInUser.username : "Unknown",
-    lastEditedAt: currentTime,
+    lastEditedBy: "",
+    lastEditedAt: "",
   };
   var questions = localStorage.getItem("questions")
     ? JSON.parse(localStorage.getItem("questions"))
@@ -555,17 +610,17 @@ function getList() {
     ? JSON.parse(localStorage.getItem("questions"))
     : [];
   var tableContent = `
-<tr id="tableHeader">
-  <td>STT</td>
-  <td>Câu hỏi</td>
-  <td>Loại câu hỏi</td>
-  <td>Người thêm</td>
-  <td>Thời gian thêm</td>
-  <td>Người chỉnh sửa gần nhất</td>
-  <td>Thời gian sửa gần nhất</td>
-  <td>Trạng thái</td>
-  <td>Xem chi tiết</td>
-  <td>Chức năng</td>
+  <tr id="tableHeader">
+  <th >STT</th>
+  <th class="question">Câu hỏi</th>
+  <th class="question-type">Loại câu hỏi</th>
+  <th class="user">Người thêm</th>
+  <th class="time">Thời gian thêm</th>
+  <th class="user">Người chỉnh sửa gần nhất</th>
+  <th class="time">Thời gian sửa gần nhất</th>
+  <th class="status">Trạng thái</th>
+  <th class="detail">Xem chi tiết</th>
+  <th class="function">Chức năng</th>
 </tr>`;
   listQuestions.map(function (question, index) {
     var questionItem = `
@@ -597,37 +652,62 @@ function getList() {
 
 function getQuestionType(question) {
   if (question.type === "one_answer") {
-    return "Dạng câu hỏi 1 đáp án";
+    return "Một đáp án";
   } else if (question.type === "multiple_answers") {
-    return "Dạng câu hỏi nhiều đáp án";
+    return "Nhiều đáp án";
   } else if (question.type === "fill_in_blank") {
-    return "Dạng câu hỏi điền";
+    return "Điền";
   } else {
-    return "Loại câu hỏi không xác định";
+    return "Không xác định";
   }
 }
-
-// function showQuestionDetail(index) {
-//     var listQuestions = localStorage.getItem("questions")
-//         ? JSON.parse(localStorage.getItem("questions"))
-//         : [];
-//     if (index >= 0 && index < listQuestions.length) {
-//         var question = listQuestions[index];
-//         // Hiển thị thông tin chi tiết của câu hỏi, ví dụ: sử dụng pop-up
-//         alert("Câu hỏi: " + question.question);
-//     }
-// }
 function showQuestionDetail(index) {
   var listQuestions = localStorage.getItem("questions")
     ? JSON.parse(localStorage.getItem("questions"))
     : [];
   if (index >= 0 && index < listQuestions.length) {
     var question = listQuestions[index];
-    var popup = document.getElementById("myPopup");
-    popup.textContent = "Câu hỏi: " + question.question;
-    popup.classList.toggle("show");
+
+    var modalBackground = document.getElementById("modalBackground");
+    var questionDetailForm = document.getElementById("questionDetailForm");
+    var questionDetailTextArea = document.getElementById("questionDetail");
+    var questionTypeDetailInput = document.getElementById("questionTypeDetail");
+    var closeButton = document.getElementById("closeButton");
+
+    questionDetailTextArea.value = question.question;
+    questionTypeDetailInput.value = getQuestionType(question);
+
+    // Hiển thị nền mờ và form
+    modalBackground.style.display = "block";
+    questionDetailForm.style.display = "block";
+
+    // Thêm sự kiện click vào nút "X" để đóng form và ẩn nền mờ
+    closeButton.addEventListener("click", function () {
+      modalBackground.style.display = "none";
+      questionDetailForm.style.display = "none";
+    });
+
+    // Thêm sự kiện click vào nền mờ để đóng form và ẩn nền mờ
+    modalBackground.addEventListener("click", function (event) {
+      if (event.target === modalBackground) {
+        modalBackground.style.display = "none";
+        questionDetailForm.style.display = "none";
+      }
+    });
   }
 }
+
+// function showQuestionDetail(index) {
+//   var listQuestions = localStorage.getItem("questions")
+//     ? JSON.parse(localStorage.getItem("questions"))
+//     : [];
+//   if (index >= 0 && index < listQuestions.length) {
+//     var question = listQuestions[index];
+//     var popup = document.getElementById("myPopup");
+//     popup.textContent = "Câu hỏi: " + question.question;
+//     popup.classList.toggle("show");
+//   }
+// }
 // Xóa
 function deleteQuestion(index) {
   var listQuestions = localStorage.getItem("questions")
@@ -803,9 +883,15 @@ function updateQuestion1() {
 
   // Update câu hỏi cần sửa trong danh sách
   if (index >= 0 && index < questions.length) {
-    questions[index].question = question;
-    questions[index].userAnswers = userAnswers;
-    questions[index].correctAnswer = correctAnswer;
+    if (questions[index].type === "one_answer") {
+      questions[index].question = question;
+      questions[index].userAnswers = userAnswers;
+      questions[index].correctAnswer = correctAnswer;
+      questions[index].addedBy = questions[index].addedBy;
+      questions[index].addedAt = questions[index].addedAt;
+      questions[index].lastEditedBy = getLoggedInUser().username;
+      questions[index].lastEditedAt = new Date().toLocaleString();
+    }
   }
 
   // Lưu danh sách câu hỏi mới vào localStorage
@@ -838,13 +924,13 @@ function updateQuestion2() {
 
   // Update câu hỏi cần sửa trong danh sách
   if (index >= 0 && index < questions.length) {
-    // Kiểm tra loại câu hỏi và lưu thông tin đáp án đúng dựa vào loại câu hỏi
     if (questions[index].type === "fill_in_blank") {
       questions[index].question = question;
       questions[index].correctAnswer = answer;
-    } else if (questions[index].type === "multiple_answers") {
-      questions[index].question = question;
-      questions[index].correctAnswers = [answer];
+      questions[index].addedBy = questions[index].addedBy;
+      questions[index].addedAt = questions[index].addedAt;
+      questions[index].lastEditedBy = getLoggedInUser().username;
+      questions[index].lastEditedAt = new Date().toLocaleString();
     }
   }
 
@@ -906,6 +992,10 @@ function updateQuestion3() {
       questions[index].question = question;
       questions[index].userAnswers = userAnswers;
       questions[index].correctAnswers = correctAnswers;
+      questions[index].addedBy = questions[index].addedBy;
+      questions[index].addedAt = questions[index].addedAt;
+      questions[index].lastEditedBy = getLoggedInUser().username;
+      questions[index].lastEditedAt = new Date().toLocaleString();
     }
   }
 

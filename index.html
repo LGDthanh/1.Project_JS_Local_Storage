@@ -6,20 +6,25 @@
   <title>Home</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <script src="script.js"></script>
-
 </head>
 
-<body>
-  <h1 style="color: bisque;">Welcome to the Home Page</h1>
+<body onload="displayWelcomeMessage();">
+  <div class="header">
+    <div class="navbar">
+      <a href="index.html" class="nav-link">Trang chủ</a>
+      <a href="https://www.24h.com.vn/" class="nav-link">Tin tức</a>
+      <a href="#" class="nav-link">Liên hệ</a>
+    </div>
+    <div class="dropdown username-dropdown" id="welcomeMessage">
+      <!-- The dropdown content for logout link will be added by JavaScript -->
+    </div>
+  </div>
+
+  <h1 style="color: rgb(31, 182, 102); text-align: center; margin: 40px;">Welcome to the Home Page</h1>
   <div id="userContainer">
     <p style="color: bisque;" id="welcomeMessage"></p>
-    <script>displayWelcomeMessage();</script>
-    <button onclick="logout()">Logout</button>
   </div>
-  <button onclick="goToWeb()">Web</button>
 
-  <div class="header">
-  </div>
   <div class="main">
     <div class="content">
       <img src="/img/HTML.png" alt="Ảnh HTML">
