@@ -112,17 +112,6 @@
   object-fit: cover;
 }
 
-.content .text {
-  font-size: 22px;
-  color: pink;
-  position: absolute;
-  font-weight: bold;
-  text-transform: uppercase;
-  left: 20px;
-  bottom: 10px;
-  z-index: 1;
-}
-
 .content .join {
   position: absolute;
   top: 50%;
@@ -464,7 +453,7 @@ tr:hover {
   cursor: pointer;
 } 
 
-/* The actual popup (appears on top)
+/* The actual popup (appears on top)*/
 .popup .popuptext {
   visibility: hidden;
   width: 160px;
@@ -478,10 +467,10 @@ tr:hover {
   bottom: 125%;
   left: 50%;
   margin-left: -80px;
-} */
+} 
 
 /* Popup arrow */
-/* .popup .popuptext::after {
+.popup .popuptext::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -490,17 +479,18 @@ tr:hover {
   border-width: 5px;
   border-style: solid;
   border-color: #555 transparent transparent transparent;
-} */
+} 
 
 /* Toggle this class when clicking on the popup container (hide and show the popup) */
- /* .popup .show {
+ .popup .show {
   visibility: visible;
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s;
-}   */
+}  
 
 /* Add animation (fade in the popup) */
-/* @-webkit-keyframes fadeIn {
+/* 
+@-webkit-keyframes fadeIn {
   from {
       opacity: 0;
   }
@@ -518,4 +508,5 @@ tr:hover {
   to {
       opacity: 1;
   }
-} */
+} 
+*/
